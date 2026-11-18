@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101114">
+<title>Catalogue LMD | NDIAYE BUSINESS</title>
+<style>
+:root{--bg:#101114;--panel:#1b1d22;--gold:#d8b45b;--cream:#f5f2e9;--muted:#b8b6af}
+*{box-sizing:border-box}body{margin:0;background:#f5f4f0;color:#191919;font-family:Arial,sans-serif}
+header{background:var(--bg);color:white;padding:18px 5%;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.brand{color:#f0d58e;font-weight:900;letter-spacing:1.4px}a{color:inherit}header a{color:#f0d58e;text-decoration:none}
+.hero{background:linear-gradient(120deg,#101114,#29251d);color:white;padding:44px 5%}.hero small{color:#f0d58e;letter-spacing:2px;text-transform:uppercase}.hero h1{font-size:clamp(30px,5vw,48px);margin:12px 0}.hero p{max-width:700px;line-height:1.65;color:#d0cec7}
+main{max-width:1150px;margin:auto;padding:28px 5%}.notice{background:white;border-left:4px solid var(--gold);padding:15px;border-radius:8px;line-height:1.55;margin-bottom:20px}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.tools input,.tools select{padding:12px;border:1px solid #ccc;border-radius:8px;background:white;min-width:180px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.card{background:white;border:1px solid #e4e0d7;border-radius:12px;padding:17px;display:flex;flex-direction:column;gap:10px}
+.icon{height:85px;border-radius:9px;background:#f0ede5;display:grid;place-items:center;font-size:38px}
+.tag{font-size:11px;color:#7d6228;font-weight:bold;text-transform:uppercase;letter-spacing:.6px}
+.card h3{margin:0;font-size:17px}.price{font-weight:800;font-size:20px}.desc{font-size:13px;color:#666;line-height:1.45;min-height:36px}
+.card button,.action{border:0;background:var(--gold);color:#171717;padding:11px 13px;border-radius:7px;font-weight:800;cursor:pointer;text-decoration:none;text-align:center}
+.cart{background:#17191d;color:white;border-radius:12px;padding:18px;margin-top:25px}.cart h2{margin-top:0}.cart p{color:#ccc}.cart button{margin-top:10px}
+#cartItems{padding-left:20px;line-height:1.7}.empty{color:#aaa}
+footer{text-align:center;background:#101114;color:#bbb;padding:22px;font-size:13px}
+@media(max-width:760px){.grid{grid-template-columns:1fr 1fr}}@media(max-width:480px){.grid{grid-template-columns:1fr}.hero{padding:34px 5%}}
+</style>
+</head>
+<body>
+<header><div class="brand">NDIAYE BUSINESS</div><a href="index.html">← Retour à la boutique</a></header>
+<section class="hero"><small>Catalogue partenaire local</small><h1>Une sélection LMD Fournisseurs</h1><p>Choisis les articles qui t'intéressent et envoie ta demande à NDIAYE BUSINESS sur WhatsApp. Nous confirmerons le stock, le prix final et les conditions avant toute commande.</p></section>
+<main>
+<div class="notice"><b>Information importante</b><br>Les montants affichés sont les prix publiés par LMD Fournisseurs lors de la consultation du catalogue. Ce ne sont pas des prix de vente confirmés par NDIAYE BUSINESS. Disponibilité, prix et livraison doivent être reconfirmés auprès du fournisseur avant paiement. <a href="https://lmdfournisseurs.com/shop/" target="_blank" rel="noopener">Voir le catalogue LMD original</a>.</div>
+<div class="tools"><input id="search" type="search" placeholder="Rechercher un produit…"><select id="category"><option value="">Toutes les catégories</option><option>Maison</option><option>Cuisine</option><option>Électroménager</option><option>Vaisselle</option></select></div>
+<div class="grid" id="products">
+<article class="card" data-name="1l thermos" data-category="Vaisselle"><div class="icon">🫖</div><div class="tag">Vaisselle · LMD</div><h3>Thermos 1 litre</h3><div class="price">4 000 FCFA</div><div class="desc">Prix affiché chez le fournisseur · stock à confirmer</div><button onclick="add('Thermos 1 litre',4000)">Ajouter à la demande</button></article>
+<article class="card" data-name="armoire modulaire" data-category="Maison"><div class="icon">🗄️</div><div class="tag">Maison · LMD</div><h3>Armoire modulaire</h3><div class="price">23 500 FCFA</div><div class="desc">Prix affiché chez le fournisseur · sur demande</div><button onclick="add('Armoire modulaire',23500)">Ajouter à la demande</button></article>
+<article class="card" data-name="armoire 2 3 battants" data-category="Maison"><div class="icon">🚪</div><div class="tag">Maison · LMD</div><h3>Armoire 2/3 battants</h3><div class="price">250 000 FCFA</div><div class="desc">Prix affiché chez le fournisseur · sur demande</div><button onclick="add('Armoire 2/3 battants',250000)">Ajouter à la demande</button></article>
+<article class="card" data-name="aspirateur cleaner" data-category="Électroménager"><div class="icon">🧹</div><div class="tag">Électroménager · LMD</div><h3>Aspirateur Cleaner</h3><div class="price">25 000 FCFA</div><div class="desc">Prix affiché chez le fournisseur · stock à confirmer</div><button onclick="add('Aspirateur Cleaner',25000)">Ajouter à la demande</button></article>
+<article class="card" data-name="assiette incassable" data-category="Vaisselle"><div class="icon">🍽️</div><div class="tag">Vaisselle · LMD</div><h3>Assiette incassable</h3><div class="price">4 000 FCFA</div><div class="desc">Prix affiché chez le fournisseur · stock à confirmer</div><button onclick="add('Assiette incassable',4000)">Ajouter à la demande</button></article>
+<article class="card" data-name="barbecue charbon" data-category="Cuisine"><div class="icon">🔥</div><div class="tag">Cuisine · LMD</div><h3>Barbecue à charbon</h3><div class="price">150 000 FCFA</div><div class="desc">Prix affiché chez le fournisseur · sur demande</div><button onclick="add('Barbecue à charbon',150000)">Ajouter à la demande</button></article>
+<article class="card" data-name="barbecue electrique" data-category="Électroménager"><div class="icon">🍳</div><div class="tag">Électroménager · LMD</div><h3>Barbecue électrique</h3><div class="price">8 500 FCFA</div><div class="desc">Prix affiché chez le fournisseur · stock à confirmer</div><button onclick="add('Barbecue électrique',8500)">Ajouter à la demande</button></article>
+<article class="card" data-name="bidet portable" data-category="Maison"><div class="icon">🚿</div><div class="tag">Maison · LMD</div><h3>Bidet portable</h3><div class="price">4 000 FCFA</div><div class="desc">Prix affiché chez le fournisseur · stock à confirmer</div><button onclick="add('Bidet portable',4000)">Ajouter à la demande</button></article>
+<article class="card" data-name="blender" data-category="Électroménager"><div class="icon">🥤</div><div class="tag">Électroménager · LMD</div><h3>Blender</h3><div class="price">9 000 FCFA</div><div class="desc">Prix affiché chez le fournisseur · stock à confirmer</div><button onclick="add('Blender',9000)">Ajouter à la demande</button></article>
+</div>
+<section class="cart"><h2>Ma demande</h2><p>Ajoute des articles, puis envoie ta liste sur WhatsApp pour confirmation.</p><ul id="cartItems"><li class="empty">Aucun article ajouté pour le moment.</li></ul><strong id="total">Total indicatif : 0 FCFA</strong><br><button class="action" onclick="sendOrder()">Envoyer ma demande sur WhatsApp</button></section>
+</main>
+<footer>NDIAYE BUSINESS · Sénégal · Catalogue fournisseur indicatif</footer>
+<script>
+const cart=[];
+const fmt=n=>new Intl.NumberFormat('fr-FR').format(n);
+function add(name,price){const item=cart.find(x=>x.name===name);if(item)item.qty++;else cart.push({name,price,qty:1});renderCart()}
+function renderCart(){const ul=document.getElementById('cartItems');ul.innerHTML='';if(!cart.length){ul.innerHTML='<li class="empty">Aucun article ajouté pour le moment.</li>'}cart.forEach((x,i)=>{const li=document.createElement('li');li.textContent=x.name+' × '+x.qty+' — '+fmt(x.price*x.qty)+' FCFA ';const b=document.createElement('button');b.textContent='−';b.onclick=()=>{x.qty--;if(x.qty<=0)cart.splice(i,1);renderCart()};li.appendChild(b);ul.appendChild(li)});document.getElementById('total').textContent='Total indicatif fournisseur : '+fmt(cart.reduce((s,x)=>s+x.price*x.qty,0))+' FCFA'}
+function sendOrder(){if(!cart.length){alert('Ajoute au moins un article.');return}let msg='Bonjour NDIAYE BUSINESS, je souhaite demander ces articles du catalogue LMD :%0A'+cart.map(x=>'- '+x.name+' x'+x.qty+' (prix fournisseur affiché : '+fmt(x.price*x.qty)+' FCFA)').join('%0A')+'%0A%0AMerci de confirmer le stock, le prix final et la livraison avant paiement.';window.open('https://wa.me/221785358385?text='+msg,'_blank')}
+function filter(){const q=document.getElementById('search').value.toLowerCase();const c=document.getElementById('category').value;document.querySelectorAll('.card').forEach(el=>{el.hidden=!(el.dataset.name.includes(q)&&(!c||el.dataset.category===c))})}
+document.getElementById('search').addEventListener('input',filter);document.getElementById('category').addEventListener('change',filter);
+</script>
+</body></html>
