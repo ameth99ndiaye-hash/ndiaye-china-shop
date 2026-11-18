@@ -1,99 +1,96 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101010">
-<title>NDIAYE BUSINESS — Boutique en ligne</title>
-<meta name="description" content="Découvrez la boutique NDIAYE BUSINESS. Commandez facilement au Sénégal via WhatsApp.">
+<title>NDIAYE CHINA SHOP | Boutique en ligne</title>
+<meta name="description" content="Boutique NDIAYE BUSINESS au Sénégal. Découvrez nos produits et commandez sur WhatsApp.">
 <style>
-:root{--bg:#090a0c;--panel:#14161a;--panel2:#1c1e22;--gold:#d5ad55;--gold2:#f1d58e;--cream:#f5f2e9;--muted:#a9a69d;--line:rgba(213,173,85,.22);--green:#20bd68}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:#171717;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}button{font:inherit}
-.top{position:sticky;top:0;z-index:20;background:rgba(9,10,12,.96);backdrop-filter:blur(14px);color:#fff;padding:15px clamp(18px,5vw,70px);display:flex;align-items:center;justify-content:space-between;gap:14px;border-bottom:1px solid var(--line)}
-.brand{font-weight:950;letter-spacing:2px;color:var(--gold2);font-size:17px}.top small{color:#c5c0b4;font-size:12px;letter-spacing:.5px}
-.hero{min-height:440px;background:radial-gradient(ellipse at 85% 30%,rgba(213,173,85,.17),transparent 35%),linear-gradient(120deg,#090a0c 0%,#17181b 62%,#242018 100%);color:white;padding:clamp(55px,9vw,105px) clamp(20px,8vw,110px);position:relative;overflow:hidden;display:flex;align-items:center}
-.hero:before{content:"";position:absolute;width:390px;height:390px;border:1px solid rgba(213,173,85,.23);border-radius:50%;right:-100px;top:20px;box-shadow:0 0 0 35px rgba(213,173,85,.025),0 0 0 75px rgba(213,173,85,.02)}
-.hero:after{content:"N";position:absolute;right:clamp(35px,12vw,170px);top:50%;transform:translateY(-50%);font-family:Georgia,serif;font-size:clamp(180px,28vw,340px);font-weight:bold;color:rgba(213,173,85,.055);line-height:1;pointer-events:none}
-.hero>div{position:relative;z-index:1;max-width:700px}.kicker{color:var(--gold2);font-size:11px;letter-spacing:3px;font-weight:800;text-transform:uppercase}
-h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(43px,7vw,76px);font-weight:500;line-height:1.02;letter-spacing:-1.5px;max-width:720px;margin:18px 0}
-.hero p{color:#d0cdc5;max-width:560px;line-height:1.85;font-size:15px;margin:0 0 27px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid var(--gold);border-radius:4px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#111;padding:14px 21px;font-weight:850;font-size:13px;letter-spacing:.25px;cursor:pointer;transition:transform .2s,filter .2s}.btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
-.btn.secondary{background:transparent;color:var(--gold2);border-color:rgba(213,173,85,.55);margin-left:9px}
-.wrap{max-width:1180px;margin:auto;padding:clamp(42px,6vw,76px) clamp(18px,5vw,48px)}
-.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
-h2{font-family:Georgia,"Times New Roman",serif;font-size:clamp(30px,4vw,42px);font-weight:500;letter-spacing:-.5px;margin:9px 0}
-.muted{color:#77736b;line-height:1.7;font-size:14px}
-.pills{display:flex;gap:9px;flex-wrap:wrap;margin:25px 0 30px}
-.pill{padding:10px 15px;border:1px solid #ded8ca;border-radius:3px;background:#fffdf8;font-size:12px;color:#514c42;letter-spacing:.2px}
-.notice{background:#fffdf8;border:1px solid #e5dece;border-left:3px solid var(--gold);padding:19px 21px;border-radius:4px;line-height:1.7;color:#625c50;font-size:14px;margin:25px 0}
-.notice b{color:#1b1a17;font-size:15px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:19px;margin-top:24px}
-.card{background:#fff;border:1px solid #e8e2d6;border-radius:5px;min-height:250px;padding:0;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s,border-color .25s}
-.card:hover{transform:translateY(-5px);box-shadow:0 18px 38px rgba(40,32,18,.10);border-color:#d6bd82}
-.card>div{padding:25px 24px 16px;flex:1}
-.card .symbol{width:56px;height:56px;display:grid;place-items:center;border-radius:50%;background:#f5f0e4;border:1px solid #e8dcc0;font-size:26px}
-.card h3{font-family:Georgia,"Times New Roman",serif;font-size:23px;font-weight:500;margin:19px 0 8px;color:#1c1b18}
-.card p{color:#77736b;font-size:13px;line-height:1.65;margin:0}
-.card p[style]{font-family:Arial,sans-serif;font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:#98752e!important;font-weight:800!important}
-.card>a{display:block;padding:16px 24px;border-top:1px solid #eee8dc;color:#8a6829;font-size:12px;font-weight:800;letter-spacing:.3px}
-.card>a:hover{background:#faf6ed}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:25px}
-.step{background:#fff;border:1px solid #e8e2d6;border-radius:4px;padding:24px}
-.step b{color:#98752e;font-size:12px;letter-spacing:2px}
-.step h3{font-family:Georgia,serif;font-size:21px;font-weight:500;margin:13px 0 7px}
-.contact{background:radial-gradient(ellipse at 90% 20%,rgba(213,173,85,.12),transparent 35%),#101114;color:white;border-top:1px solid var(--line)}
-.contact .muted{color:#c4c0b6}.contact h2{color:#fff}
-footer{background:#090a0c;color:#aaa69b;padding:25px 5%;font-size:11px;letter-spacing:.7px;text-align:center;border-top:1px solid var(--line)}
-.float{position:fixed;right:18px;bottom:18px;z-index:30;background:var(--green);color:#fff;border-radius:30px;padding:14px 19px;font-size:13px;font-weight:850;box-shadow:0 8px 25px #0003;transition:transform .2s}.float:hover{transform:translateY(-3px)}
-@media(max-width:760px){.top{padding:13px 17px}.top small{font-size:10px}.hero{min-height:410px;padding:55px 23px}.hero:before{width:270px;height:270px;right:-150px;top:100px}.hero:after{right:-10px;font-size:190px}.hero p{font-size:14px}.btn{padding:13px 15px}.btn.secondary{margin:10px 0 0}.grid,.steps{grid-template-columns:1fr}.card{min-height:220px}.wrap{padding-top:45px;padding-bottom:45px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
+:root{--ink:#101114;--gold:#d7b568;--gold2:#f2dda7;--paper:#f7f5ef;--muted:#77766f;--line:#e8e2d5;--green:#20bd68}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:#1b1b19;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}a{color:inherit;text-decoration:none}
+.announcement{background:#08090b;color:#d9c18a;text-align:center;padding:8px 12px;font-size:11px;letter-spacing:1.2px}
+header{position:sticky;top:0;z-index:20;background:rgba(15,16,18,.97);color:white;border-bottom:1px solid #4d4128;backdrop-filter:blur(12px)}
+.nav{max-width:1200px;margin:auto;padding:15px 22px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.logo{font-weight:950;letter-spacing:2px;color:var(--gold2);font-size:17px}.logo span{display:block;font-size:9px;letter-spacing:4px;color:#b7b0a1;font-weight:600;margin-top:3px}
+.navlinks{display:flex;gap:24px;font-size:12px;color:#e1ded5}.navlinks a:hover{color:var(--gold2)}
+.cartbtn{border:1px solid #8b713c;background:transparent;color:var(--gold2);padding:10px 14px;border-radius:3px;cursor:pointer;font-weight:750;font-size:12px}
+.hero{background:radial-gradient(ellipse at 82% 35%,#4b3a1c66,transparent 32%),linear-gradient(115deg,#0b0c0e,#191a1d 65%,#292216);color:white;min-height:420px;display:flex;align-items:center;overflow:hidden;position:relative}
+.hero:after{content:"N";position:absolute;right:9%;font: bold clamp(190px,30vw,360px)/1 Georgia;color:#d7b5680b}
+.hero-inner{width:min(1120px,100%);margin:auto;padding:72px 25px;position:relative;z-index:1}
+.eyebrow{font-size:10px;font-weight:850;letter-spacing:3px;text-transform:uppercase;color:#d9bd7d}
+h1{font:500 clamp(43px,7vw,76px)/1.02 Georgia,serif;max-width:700px;margin:18px 0;letter-spacing:-1.5px}
+.hero p{max-width:550px;color:#d0cdc5;line-height:1.8;font-size:14px;margin-bottom:25px}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f2dda7,#c49a46);color:#17140e;border:0;border-radius:3px;padding:13px 19px;font-size:12px;font-weight:850;cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.05)}.btn-outline{background:transparent;border:1px solid #b99a5a;color:#f2dda7;margin-left:8px}
+.container{max-width:1150px;margin:auto;padding:62px 22px}
+.heading{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+h2{font:500 clamp(30px,4vw,43px)/1.1 Georgia,serif;margin:9px 0}.sub{color:var(--muted);font-size:13px;line-height:1.7}
+.toolbar{display:flex;gap:12px;margin:25px 0 18px;flex-wrap:wrap}
+.search{flex:1;min-width:210px;border:1px solid #ded8ca;background:#fff;padding:13px 15px;border-radius:3px;outline:none}.search:focus{border-color:#b9954e}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.filter{border:1px solid #ded8ca;background:#fff;color:#575248;padding:9px 14px;border-radius:30px;font-size:11px;cursor:pointer}
+.filter.active,.filter:hover{background:#17181a;color:#f1d89e;border-color:#17181a}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.product{background:white;border:1px solid var(--line);border-radius:5px;overflow:hidden;display:flex;flex-direction:column;transition:.2s}
+.product:hover{transform:translateY(-4px);box-shadow:0 15px 35px #20180812;border-color:#d4bd87}
+.product-art{height:175px;background:linear-gradient(135deg,#f4f0e5,#e9e1d0);display:grid;place-items:center;position:relative}
+.product-art span{font-size:58px;filter:drop-shadow(0 8px 5px #0002)}
+.tag{position:absolute;top:13px;left:13px;background:#17181a;color:#e8d19a;font-size:9px;letter-spacing:1px;padding:7px 9px;border-radius:2px}
+.product-body{padding:18px;display:flex;flex-direction:column;flex:1}
+.product h3{font:500 22px Georgia,serif;margin:0 0 8px}.product p{color:var(--muted);font-size:12px;line-height:1.6;margin:0 0 14px}
+.price{color:#94702c;font-size:12px;font-weight:850;margin-top:auto;margin-bottom:14px}
+.actions{display:flex;gap:8px}.actions button{flex:1;padding:11px 9px;font-size:11px}.small-outline{background:white;border:1px solid #d9c99f;color:#735a29;border-radius:3px;cursor:pointer;font-weight:750}
+.info{background:#fff;border:1px solid var(--line);border-left:3px solid var(--gold);padding:16px 18px;color:#6f695d;font-size:12px;line-height:1.7;margin:0 0 23px}
+.how{background:#eeeadf}.how .container{padding-top:48px;padding-bottom:48px}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}.step{background:#fff;border:1px solid var(--line);padding:22px;border-radius:4px}.step b{color:#98752e;font-size:11px;letter-spacing:2px}.step h3{font:500 21px Georgia,serif;margin:12px 0 7px}
+.contact{background:#111215;color:white}.contact .container{padding-top:50px;padding-bottom:50px}.contact .sub{color:#c4c0b6}.contact h2{color:#fff}
+footer{background:#08090b;color:#a8a397;text-align:center;padding:23px;font-size:10px;letter-spacing:1px}
+.float{position:fixed;bottom:17px;right:17px;z-index:25;background:var(--green);color:white;border-radius:30px;padding:13px 18px;font-size:12px;font-weight:850;box-shadow:0 8px 25px #0003}
+.drawer-bg{display:none;position:fixed;inset:0;background:#0009;z-index:40}.drawer-bg.open{display:block}.drawer{position:absolute;right:0;top:0;height:100%;width:min(440px,100%);background:#fff;padding:23px;overflow:auto;box-shadow:-10px 0 40px #0002}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:15px}.drawer h2{font-size:28px}.close{border:0;background:#eee;padding:8px 12px;border-radius:3px;cursor:pointer}
+.cart-row{display:flex;justify-content:space-between;gap:12px;padding:16px 0;border-bottom:1px solid var(--line);font-size:13px}.cart-row small{display:block;color:var(--muted);margin-top:5px}.qty{display:flex;align-items:center;gap:8px}.qty button{border:1px solid #ddd;background:white;border-radius:3px;padding:4px 9px;cursor:pointer}
+.field{display:block;width:100%;padding:12px;border:1px solid #ddd8cd;border-radius:3px;margin:8px 0 13px;background:#fff}.drawer label{font-size:11px;font-weight:750;color:#5c574d}.drawer .btn{width:100%;margin-top:12px}
+.empty{color:var(--muted);font-size:13px;line-height:1.7;padding:25px 0}
+@media(max-width:760px){.nav{padding:12px 15px}.navlinks{display:none}.hero-inner{padding:62px 22px}.hero:after{right:-10px}.container{padding:45px 17px}.grid{grid-template-columns:1fr 1fr;gap:11px}.product-art{height:130px}.product-art span{font-size:45px}.product-body{padding:13px}.product h3{font-size:18px}.product p{font-size:11px}.actions{flex-direction:column}.steps{grid-template-columns:1fr}.btn-outline{margin:10px 0 0}.heading{align-items:start}}
+@media(max-width:390px){.grid{grid-template-columns:1fr}.product-art{height:160px}}
 </style>
 </head>
 <body>
-<header class="top">
-  <div class="brand">NDIAYE BUSINESS</div>
-  <small>Boutique en ligne · Sénégal</small>
-</header>
+<div class="announcement">LIVRAISON À DAKAR ET DANS LES RÉGIONS · COMMANDE SUR WHATSAPP</div>
+<header><nav class="nav"><a class="logo" href="#">NDIAYE BUSINESS<span>CHINA SHOP</span></a><div class="navlinks"><a href="#boutique">Boutique</a><a href="#commande">Comment commander</a><a href="#contact">Contact</a></div><button class="cartbtn" onclick="openCart()">Panier (<span id="cartCount">0</span>)</button></nav></header>
 <main>
-<section class="hero">
-  <div class="kicker">Votre boutique, en toute simplicité</div>
-  <h1>Découvrez. Choisissez. Commandez.</h1>
-  <p>Une sélection de produits pour votre quotidien. Commandez directement auprès de NDIAYE BUSINESS sur WhatsApp et convenez des modalités de livraison et de paiement.</p>
-  <a class="btn" href="https://wa.me/221785358385?text=Bonjour%20NDIAYE%20BUSINESS%2C%20je%20souhaite%20d%C3%A9couvrir%20vos%20produits." target="_blank" rel="noopener">Découvrir nos produits</a>
-  <a class="btn secondary" href="#contact">Nous contacter</a>
+<section class="hero"><div class="hero-inner"><div class="eyebrow">La sélection NDIAYE BUSINESS</div><h1>Le bon choix, simplement.</h1><p>Découvrez notre sélection d'articles pour la maison et le quotidien. Choisissez vos produits, ajoutez-les au panier et envoyez votre demande de commande directement sur WhatsApp.</p><a class="btn" href="#boutique">Explorer la boutique</a><a class="btn btn-outline" href="#contact">Nous contacter</a></div></section>
+<section class="container" id="boutique">
+<div class="heading"><div><div class="eyebrow" style="color:#98752e">Notre catalogue</div><h2>La boutique</h2><div class="sub">Une première sélection de produits. D'autres articles arriveront bientôt.</div></div></div>
+<div class="toolbar"><input id="search" class="search" type="search" placeholder="Rechercher un produit..." aria-label="Rechercher un produit"></div>
+<div class="filters"><button class="filter active" data-filter="all">Tout voir</button><button class="filter" data-filter="maison">Maison & cuisine</button></div>
+<div class="info"><strong>À savoir :</strong> les prix et les disponibilités sont à confirmer avant validation de la commande. Le panier prépare une demande de commande, il ne déclenche pas de paiement automatique.</div>
+<div class="grid" id="products">
+<article class="product" data-name="thermos bouteille isotherme 1 litre" data-category="maison" data-id="thermos"><div class="product-art"><span>🧴</span><span class="tag">SÉLECTION</span></div><div class="product-body"><h3>Thermos 1 litre</h3><p>Un compagnon pratique pour garder vos boissons à portée de main.</p><div class="price">Prix à confirmer</div><div class="actions"><button class="btn" onclick="addToCart('thermos')">Ajouter au panier</button><button class="small-outline" onclick="askProduct('Thermos 1 litre')">Détails</button></div></div></article>
+<article class="product" data-name="mug tasse pipette paille" data-category="maison" data-id="mug"><div class="product-art"><span>🥤</span><span class="tag">SÉLECTION</span></div><div class="product-body"><h3>Mug avec pipette</h3><p>Un mug réutilisable pour savourer vos boissons au quotidien.</p><div class="price">Prix à confirmer</div><div class="actions"><button class="btn" onclick="addToCart('mug')">Ajouter au panier</button><button class="small-outline" onclick="askProduct('Mug avec pipette')">Détails</button></div></div></article>
+<article class="product" data-name="raclette grand modèle nettoyage maison" data-category="maison" data-id="raclette"><div class="product-art"><span>🧹</span><span class="tag">SÉLECTION</span></div><div class="product-body"><h3>Raclette grand modèle</h3><p>Un accessoire utile pour l'entretien et le nettoyage de la maison.</p><div class="price">Prix à confirmer</div><div class="actions"><button class="btn" onclick="addToCart('raclette')">Ajouter au panier</button><button class="small-outline" onclick="askProduct('Raclette grand modèle')">Détails</button></div></div></article>
+</div><p id="noResults" class="empty" hidden>Aucun produit ne correspond à votre recherche.</p>
 </section>
-<section class="wrap">
-  <div class="section-head">
-    <div><div class="kicker" style="color:#98752e">La boutique</div><h2>Nos catégories</h2><div class="muted">Le catalogue détaillé sera ajouté avec tes vrais produits, photos et prix.</div></div>
-  </div>
-  <div class="pills">
-    <span class="pill">Maison & cuisine</span><span class="pill">Mode & accessoires</span><span class="pill">Téléphones & accessoires</span><span class="pill">Beauté & bien-être</span><span class="pill">Divers</span>
-  </div>
-  <div class="notice"><b>Première sélection NDIAYE BUSINESS</b><br>Voici nos trois premiers articles sélectionnés auprès de notre fournisseur. Les prix et stocks sont à confirmer avant toute commande.</div>
-  <div class="grid">
-    <article class="card"><div><div class="symbol">🧴</div><h3>Thermos 1 litre</h3><p>Pour conserver vos boissons au quotidien.</p><p style="font-weight:800;color:#98752e;margin-top:12px">Prix : à confirmer</p></div><a class="muted" href="https://wa.me/221785358385?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20le%20thermos%201%20litre.%20Quel%20est%20le%20prix%20et%20la%20disponibilit%C3%A9%20%3F" target="_blank" rel="noopener">Demander le prix et le stock →</a></article>
-    <article class="card"><div><div class="symbol">🥤</div><h3>Mug avec pipette</h3><p>Un mug réutilisable pratique pour vos boissons.</p><p style="font-weight:800;color:#98752e;margin-top:12px">Prix : à confirmer</p></div><a class="muted" href="https://wa.me/221785358385?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20le%20mug%20avec%20pipette.%20Quel%20est%20le%20prix%20et%20la%20disponibilit%C3%A9%20%3F" target="_blank" rel="noopener">Demander le prix et le stock →</a></article>
-    <article class="card"><div><div class="symbol">🧹</div><h3>Raclette grand modèle</h3><p>Un accessoire utile pour le nettoyage de la maison.</p><p style="font-weight:800;color:#98752e;margin-top:12px">Prix : à confirmer</p></div><a class="muted" href="https://wa.me/221785358385?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20la%20raclette%20grand%20mod%C3%A8le.%20Quel%20est%20le%20prix%20et%20la%20disponibilit%C3%A9%20%3F" target="_blank" rel="noopener">Demander le prix et le stock →</a></article>
-  </div>
-</section>
-<section class="wrap">
-  <div class="kicker" style="color:#98752e">Comment commander</div><h2>Simple et direct</h2>
-  <div class="steps">
-    <div class="step"><b>01</b><h3>Choisissez</h3><p class="muted">Consultez les articles disponibles et demandez les détails.</p></div>
-    <div class="step"><b>02</b><h3>Confirmez</h3><p class="muted">Validez le produit, le prix, la disponibilité et l'adresse avec notre équipe.</p></div>
-    <div class="step"><b>03</b><h3>Recevez</h3><p class="muted">Convenez de la livraison à Dakar ou dans votre région.</p></div>
-  </div>
-</section>
-<section class="contact" id="contact">
-  <div class="wrap">
-    <div class="kicker">Contact & commandes</div><h2>Parlons de votre commande.</h2>
-    <p class="muted">WhatsApp : +221 78 535 83 85<br>Livraison : Dakar et régions du Sénégal<br>Paiements annoncés : Wave et Orange Money — modalités à confirmer au moment de la commande.</p>
-    <a class="btn" href="https://wa.me/221785358385?text=Bonjour%20NDIAYE%20BUSINESS%2C%20je%20souhaite%20passer%20une%20commande." target="_blank" rel="noopener">Commander sur WhatsApp</a>
-  </div>
-</section>
+<section class="how" id="commande"><div class="container"><div class="eyebrow" style="color:#98752e">Votre commande en 3 étapes</div><h2>Simple, clair et pratique.</h2><div class="steps"><div class="step"><b>01 — CHOISISSEZ</b><h3>Ajoutez au panier</h3><p class="sub">Sélectionnez les articles et les quantités souhaitées.</p></div><div class="step"><b>02 — ENVOYEZ</b><h3>Confirmez sur WhatsApp</h3><p class="sub">Envoyez votre demande avec vos coordonnées pour confirmer les prix et la disponibilité.</p></div><div class="step"><b>03 — RECEVEZ</b><h3>Organisez la livraison</h3><p class="sub">Convenez avec notre équipe du lieu, du délai et du mode de paiement.</p></div></div></div></section>
+<section class="contact" id="contact"><div class="container"><div class="eyebrow">Service client</div><h2>Une question ? Parlons-en.</h2><p class="sub">WhatsApp : +221 78 535 83 85<br>Livraison : Dakar et régions du Sénégal<br>Paiements annoncés : Wave et Orange Money, modalités à confirmer lors de la commande.</p><a class="btn" href="https://wa.me/221785358385?text=Bonjour%20NDIAYE%20BUSINESS%2C%20j'ai%20une%20question%20sur%20la%20boutique." target="_blank" rel="noopener">Contacter la boutique</a></div></section>
 </main>
-<footer>© <span id="year"></span> NDIAYE BUSINESS · Boutique en ligne au Sénégal</footer>
-<a class="float" href="https://wa.me/221785358385?text=Bonjour%20NDIAYE%20BUSINESS" target="_blank" rel="noopener">WhatsApp</a>
-<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
-</body>
-</html>
+<footer>© <span id="year"></span> NDIAYE BUSINESS · CHINA SHOP · SÉNÉGAL</footer>
+<a class="float" href="https://wa.me/221785358385" target="_blank" rel="noopener">WhatsApp</a>
+<div class="drawer-bg" id="cartLayer" onclick="if(event.target===this)closeCart()"><aside class="drawer" role="dialog" aria-modal="true" aria-label="Votre panier"><div class="drawer-head"><h2>Votre panier</h2><button class="close" onclick="closeCart()">Fermer ✕</button></div><div id="cartItems"></div><div id="checkout" hidden><h3 style="font:500 22px Georgia,serif;margin:22px 0 12px">Vos coordonnées</h3><form id="orderForm"><label for="customer">Nom complet</label><input class="field" id="customer" required placeholder="Votre nom"><label for="phone">Téléphone</label><input class="field" id="phone" required type="tel" placeholder="Votre numéro"><label for="area">Ville / quartier</label><input class="field" id="area" required placeholder="Ex. Dakar, Rufisque..."><label for="note">Précisions (facultatif)</label><textarea class="field" id="note" rows="3" placeholder="Couleur, livraison, questions..."></textarea><button class="btn" type="submit">Envoyer la demande sur WhatsApp</button></form></div></aside></div>
+<script>
+const catalog={thermos:"Thermos 1 litre",mug:"Mug avec pipette",raclette:"Raclette grand modèle"};
+let cart={};
+function count(){return Object.values(cart).reduce((a,b)=>a+b,0)}
+function updateCount(){document.getElementById('cartCount').textContent=count()}
+function addToCart(id){cart[id]=(cart[id]||0)+1;updateCount();renderCart();openCart()}
+function changeQty(id,n){cart[id]=(cart[id]||0)+n;if(cart[id]<=0)delete cart[id];updateCount();renderCart()}
+function openCart(){document.getElementById('cartLayer').classList.add('open');renderCart()}
+function closeCart(){document.getElementById('cartLayer').classList.remove('open')}
+function renderCart(){const box=document.getElementById('cartItems'),checkout=document.getElementById('checkout');const ids=Object.keys(cart);if(!ids.length){box.innerHTML='<p class="empty">Votre panier est vide. Ajoutez un produit pour préparer votre demande de commande.</p>';checkout.hidden=true;return}box.innerHTML=ids.map(id=>'<div class="cart-row"><div><strong>'+catalog[id]+'</strong><small>Prix à confirmer avec la boutique</small></div><div class="qty"><button type="button" aria-label="Diminuer" onclick="changeQty(\''+id+'\',-1)">−</button><b>'+cart[id]+'</b><button type="button" aria-label="Augmenter" onclick="changeQty(\''+id+'\',1)">+</button></div></div>').join('')+'<p class="sub" style="margin-top:15px">Le montant final sera confirmé par notre équipe avant validation.</p>';checkout.hidden=false}
+function askProduct(name){const msg='Bonjour NDIAYE BUSINESS, je souhaite avoir les détails, le prix et la disponibilité de : '+name+'.';window.open('https://wa.me/221785358385?text='+encodeURIComponent(msg),'_blank','noopener')}
+document.querySelectorAll('.filter').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));btn.classList.add('active');filterProducts()}));
+document.getElementById('search').addEventListener('input',filterProducts);
+function filterProducts(){const q=document.getElementById('search').value.toLowerCase().trim(),cat=document.querySelector('.filter.active').dataset.filter;let shown=0;document.querySelectorAll('.product').forEach(card=>{const ok=(cat==='all'||card.dataset.category===cat)&&card.dataset.name.includes(q);card.hidden=!ok;if(ok)shown++});document.getElementById('noResults').hidden=shown!==0}
+document.getElementById('orderForm').addEventListener('submit',e=>{e.preventDefault();const lines=Object.keys(cart).map(id=>'- '+catalog[id]+' x '+cart[id]).join('\n');const msg='Bonjour NDIAYE BUSINESS, je souhaite passer cette demande de commande :\n\n'+lines+'\n\nNom : '+document.getElementById('customer').value+'\nTéléphone : '+document.getElementById('phone').value+'\nVille/quartier : '+document.getElementById('area').value+'\nPrécisions : '+document.getElementById('note').value+'\n\nMerci de me confirmer les prix, la disponibilité et la livraison.';window.open('https://wa.me/221785358385?text='+encodeURIComponent(msg),'_blank','noopener')});
+document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+</body></html>
