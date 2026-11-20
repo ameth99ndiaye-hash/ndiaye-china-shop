@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="150" viewBox="0 0 720 150" role="img" aria-labelledby="title desc">
+<title id="title">NDIAYE CHINA SHOP</title><desc id="desc">Logo noir et or avec monogramme NC dans un médaillon circulaire.</desc>
+<defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4e2b2"/><stop offset=".52" stop-color="#c6a45d"/><stop offset="1" stop-color="#8e6b2d"/></linearGradient></defs>
+<circle cx="76" cy="75" r="62" fill="#101114" stroke="url(#gold)" stroke-width="3"/>
+<circle cx="76" cy="75" r="52" fill="none" stroke="#c6a45d" stroke-opacity=".45" stroke-width="1"/>
+<path d="M48 47h18l31 43V47h16v56H96L64 60v43H48z" fill="url(#gold)"/>
+<path d="M116 47h15c18 0 29 11 29 28s-11 28-29 28h-15V47zm15 42c9 0 14-5 14-14s-5-14-14-14h-1v28z" fill="#f3dfad"/>
+<text x="165" y="70" fill="#f3dfad" font-family="Georgia,serif" font-size="38" font-weight="bold" letter-spacing="2">NDIAYE</text>
+<text x="167" y="108" fill="#c6a45d" font-family="Arial,sans-serif" font-size="25" font-weight="700" letter-spacing="5">CHINA SHOP</text>
+<path d="M168 121h305" stroke="#c6a45d" stroke-width="1" opacity=".65"/>
+<text x="168" y="140" fill="#b8b0a0" font-family="Arial,sans-serif" font-size="9" letter-spacing="3.3">SÉLECTION · QUALITÉ · CONFIANCE</text>
+</svg>
