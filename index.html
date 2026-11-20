@@ -92,6 +92,27 @@ footer{background:#08090b;color:#a99f88;padding:25px 15px;font-size:9px;letter-s
 #boutique .heading h2{color:#201d17}
 @media(max-width:760px){.product-art{height:170px}.product-art>span:not(.tag){width:92px;height:112px;font-size:58px}.product:nth-child(2) .product-art>span:not(.tag){width:105px;height:92px}.product:nth-child(3) .product-art>span:not(.tag){width:115px;height:70px;font-size:50px}}
 
+
+/* Fiches produits détaillées */
+.product .details-link{cursor:pointer}
+.product-detail-layer{display:none;position:fixed;inset:0;z-index:60;background:#08090bd9;padding:20px;align-items:center;justify-content:center}
+.product-detail-layer.open{display:flex}
+.product-detail{width:min(760px,100%);max-height:92vh;overflow:auto;background:#fbfaf7;border:1px solid #b99856;box-shadow:0 25px 80px #0008;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);position:relative}
+.detail-visual{min-height:360px;background:radial-gradient(ellipse at 50% 45%,#49402e,#171719 70%,#0c0d0f);display:grid;place-items:center;padding:25px;position:relative}
+.detail-visual:after{content:"";position:absolute;inset:16px;border:1px solid #c6a45d55;pointer-events:none}
+.detail-visual img{width:100%;height:100%;max-height:430px;object-fit:contain;position:relative;z-index:1}
+.detail-visual .detail-symbol{font-size:100px;position:relative;z-index:1;filter:drop-shadow(0 14px 12px #0008)}
+.detail-content{padding:35px 30px;display:flex;flex-direction:column;align-items:flex-start}
+.detail-kicker{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#98752e;font-weight:850}
+.detail-content h2{font-size:34px;margin:14px 0}
+.detail-description{font-size:13px;line-height:1.9;color:#6e695f;white-space:pre-line}
+.detail-meta{width:100%;border-top:1px solid #e8e1d5;margin-top:20px;padding-top:15px;font-size:11px;color:#716b60;line-height:2}
+.detail-meta strong{color:#27231b}
+.detail-actions{display:flex;gap:9px;flex-wrap:wrap;width:100%;margin-top:auto;padding-top:22px}
+.detail-actions button{flex:1;min-width:130px}
+.detail-close{position:absolute;right:12px;top:12px;z-index:3;border:1px solid #c6a45d;background:#101114;color:#f3dfad;padding:9px 12px;cursor:pointer}
+@media(max-width:620px){.product-detail-layer{padding:10px}.product-detail{grid-template-columns:1fr;max-height:95vh}.detail-visual{min-height:220px;height:220px}.detail-visual .detail-symbol{font-size:75px}.detail-content{padding:24px 20px}.detail-content h2{font-size:28px}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -118,6 +139,24 @@ footer{background:#08090b;color:#a99f88;padding:25px 15px;font-size:9px;letter-s
 <footer>© <span id="year"></span> NDIAYE BUSINESS · CHINA SHOP · SÉNÉGAL</footer>
 <a class="float" href="https://wa.me/221785358385" target="_blank" rel="noopener">WhatsApp</a>
 <div class="drawer-bg" id="cartLayer" onclick="if(event.target===this)closeCart()"><aside class="drawer" role="dialog" aria-modal="true" aria-label="Votre panier"><div class="drawer-head"><h2>Votre panier</h2><button class="close" onclick="closeCart()">Fermer ✕</button></div><div id="cartItems"></div><div id="checkout" hidden><h3 style="font:500 22px Georgia,serif;margin:22px 0 12px">Vos coordonnées</h3><form id="orderForm"><label for="customer">Nom complet</label><input class="field" id="customer" required placeholder="Votre nom"><label for="phone">Téléphone</label><input class="field" id="phone" required type="tel" placeholder="Votre numéro"><label for="area">Ville / quartier</label><input class="field" id="area" required placeholder="Ex. Dakar, Rufisque..."><label for="note">Précisions (facultatif)</label><textarea class="field" id="note" rows="3" placeholder="Couleur, livraison, questions..."></textarea><button class="btn" type="submit">Envoyer la demande sur WhatsApp</button></form></div></aside></div>
+
+<div class="product-detail-layer" id="productDetailLayer" onclick="if(event.target===this)closeProductDetail()">
+  <section class="product-detail" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+    <button class="detail-close" type="button" onclick="closeProductDetail()" aria-label="Fermer">✕</button>
+    <div class="detail-visual" id="detailVisual"><span class="detail-symbol">🛍️</span></div>
+    <div class="detail-content">
+      <div class="detail-kicker">Fiche produit · NDIAYE CHINA SHOP</div>
+      <h2 id="detailTitle">Produit</h2>
+      <p class="detail-description" id="detailDescription"></p>
+      <div class="detail-meta" id="detailMeta"></div>
+      <div class="detail-actions">
+        <button class="btn" type="button" id="detailAddButton">Ajouter au panier</button>
+        <button class="small-outline" type="button" id="detailAskButton">Demander sur WhatsApp</button>
+      </div>
+    </div>
+  </section>
+</div>
+
 <script>
 const SUPABASE_URL = "https://zkocxxfrokehmysudxtw.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_dSl_2f74jVCK7np4idG7IQ_pyomcfAV";
@@ -168,6 +207,25 @@ async function loadProducts() {
   renderProducts();
 }
 function getProduct(id) { return productsData.find(p => String(p.id) === String(id)); }
+function openProductDetail(id){
+  const p=getProduct(id);if(!p)return;
+  document.getElementById("detailTitle").textContent=p.name || "Produit";
+  document.getElementById("detailDescription").textContent=p.description || "Contactez notre équipe pour obtenir les détails de cet article.";
+  const visual=document.getElementById("detailVisual");
+  if(typeof p.image_url==="string" && /^https?:\\/\\//i.test(p.image_url)){
+    visual.innerHTML='<img src="'+escapeHTML(p.image_url)+'" alt="'+escapeHTML(p.name)+'" onerror="this.remove();this.parentElement.insertAdjacentHTML(\'beforeend\',\'<span class=\\\'detail-symbol\\\'>🛍️</span>\')">';
+  }else{
+    visual.innerHTML='<span class="detail-symbol">'+productIcon(p.category)+'</span>';
+  }
+  const stockText=Number(p.stock)>0 ? "Disponibilité : quantité indiquée en stock ("+Number(p.stock)+")" : "Disponibilité : à confirmer avec notre équipe";
+  document.getElementById("detailMeta").innerHTML='<div><strong>Catégorie :</strong> '+escapeHTML(p.category || "Non renseignée")+'</div><div><strong>Prix :</strong> '+escapeHTML(formatPrice(p.price_fcfa))+'</div><div><strong>'+escapeHTML(stockText)+'</strong></div>';
+  document.getElementById("detailAddButton").onclick=()=>{addToCart(p.id);closeProductDetail();};
+  document.getElementById("detailAskButton").onclick=()=>askProduct(p.id);
+  document.getElementById("productDetailLayer").classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function closeProductDetail(){document.getElementById("productDetailLayer").classList.remove("open");document.body.style.overflow="";}
+
 function count(){return Object.values(cart).reduce((a,b)=>a+b,0)}
 function updateCount(){document.getElementById("cartCount").textContent=count()}
 function addToCart(id){if(!getProduct(id))return;cart[id]=(cart[id]||0)+1;updateCount();renderCart();openCart()}
@@ -185,7 +243,7 @@ function askProduct(id){const p=getProduct(id);if(!p)return;const msg="Bonjour N
 productsBox.addEventListener("click",e=>{
   const add=e.target.closest("[data-add]"),ask=e.target.closest("[data-ask]");
   if(add)addToCart(add.dataset.add);
-  if(ask)askProduct(ask.dataset.ask);
+  if(ask)openProductDetail(ask.dataset.ask);
 });
 document.getElementById("cartItems").addEventListener("click",e=>{
   const minus=e.target.closest("[data-minus]"),plus=e.target.closest("[data-plus]");
