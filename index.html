@@ -179,7 +179,7 @@ footer{background:#08090b;color:#a99f88;padding:25px 15px;font-size:9px;letter-s
 </main>
 <footer>© <span id="year"></span> NDIAYE BUSINESS · CHINA SHOP · SÉNÉGAL</footer>
 <a class="float" href="https://wa.me/221785358385" target="_blank" rel="noopener">WhatsApp</a>
-<div class="drawer-bg" id="cartLayer" onclick="if(event.target===this)closeCart()"><aside class="drawer" role="dialog" aria-modal="true" aria-label="Votre panier"><div class="drawer-head"><h2>Votre panier</h2><button class="close" onclick="closeCart()">Fermer ✕</button></div><div id="cartItems"></div><div id="checkout" hidden><h3 style="font:500 22px Georgia,serif;margin:22px 0 12px">Vos coordonnées</h3><form id="orderForm"><label for="customer">Nom complet</label><input class="field" id="customer" required placeholder="Votre nom"><label for="phone">Téléphone</label><input class="field" id="phone" required type="tel" placeholder="Votre numéro"><label for="area">Ville / quartier</label><input class="field" id="area" required placeholder="Ex. Dakar, Rufisque..."><label for="paymentMethod">Mode de paiement</label><select class="field" id="paymentMethod" required><option value="livraison">Paiement à la livraison</option><option value="wave" disabled>Wave — bientôt disponible</option><option value="orange_money" disabled>Orange Money — bientôt disponible</option></select><p style="font-size:12px;color:#777;margin:6px 0 14px">Wave et Orange Money seront activés dès que les paiements marchands seront disponibles. Ne faites aucun transfert avant confirmation.</p><label for="note">Précisions (facultatif)</label><textarea class="field" id="note" rows="3" placeholder="Couleur, livraison, questions..."></textarea><button class="btn" type="submit">Envoyer la demande sur WhatsApp</button></form></div></aside></div>
+<div class="drawer-bg" id="cartLayer" onclick="if(event.target===this)closeCart()"><aside class="drawer" role="dialog" aria-modal="true" aria-label="Votre panier"><div class="drawer-head"><h2>Votre panier</h2><button class="close" onclick="closeCart()">Fermer ✕</button></div><div id="cartItems"></div><div id="checkout" hidden><h3 style="font:500 22px Georgia,serif;margin:22px 0 12px">Vos coordonnées</h3><form id="orderForm"><label for="customer">Nom complet</label><input class="field" id="customer" required placeholder="Votre nom"><label for="phone">Téléphone</label><input class="field" id="phone" required type="tel" placeholder="Votre numéro"><label for="area">Adresse de livraison (ville, quartier, détails)</label><input class="field" id="area" required placeholder="Ex. Dakar, Pikine, rue et repère..."><label for="paymentMethod">Mode de paiement</label><select class="field" id="paymentMethod" required><option value="livraison">Paiement à la livraison</option><option value="wave" disabled>Wave — bientôt disponible</option><option value="orange_money" disabled>Orange Money — bientôt disponible</option></select><p style="font-size:12px;color:#777;margin:6px 0 14px">Wave et Orange Money seront activés dès que les paiements marchands seront disponibles. Ne faites aucun transfert avant confirmation.</p><label for="note">Précisions (facultatif)</label><textarea class="field" id="note" rows="3" placeholder="Couleur, livraison, questions..."></textarea><button class="btn" type="submit">Envoyer la demande sur WhatsApp</button></form></div></aside></div>
 
 <div class="product-detail-layer" id="productDetailLayer" onclick="if(event.target===this)closeProductDetail()">
   <section class="product-detail" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
@@ -231,7 +231,8 @@ function renderProducts() {
       '<div class="product-art">' + img + '</div>' +
       '<div class="product-body"><h3>' + escapeHTML(p.name) + '</h3><p>' + escapeHTML(p.description || "Contactez-nous pour plus de détails.") + '</p>' +
       '<div class="price">' + formatPrice(p.price_fcfa) + '</div>' +
-      '<div class="actions"><button class="btn" type="button" data-add="' + escapeHTML(p.id) + '">Ajouter au panier</button>' +
+      '<p class="availability" style="font-size:11px;margin:8px 0;color:' + (Number(p.stock)>0?'#47734b':'#98743b') + '">' + (Number(p.stock)>0?'En stock':'Sur commande · livraison fournisseur à confirmer') + '</p>' +
+      '<div class="actions"><button class="btn" type="button" data-add="' + escapeHTML(p.id) + '">Commander cet article</button>' +
       '<button class="small-outline" type="button" data-ask="' + escapeHTML(p.id) + '">Détails</button></div></div></article>';
   }).join("");
   document.getElementById("noResults").hidden = filtered.length !== 0;
@@ -260,7 +261,7 @@ function openProductDetail(id){
   }else{
     visual.innerHTML='<span class="detail-symbol">'+productIcon(p.category)+'</span>';
   }
-  const stockText=Number(p.stock)>0 ? "Disponibilité : quantité indiquée en stock ("+Number(p.stock)+")" : "Disponibilité : à confirmer avec notre équipe";
+  const stockText=Number(p.stock)>0 ? "En stock : "+Number(p.stock)+" unité(s) indiquée(s)" : "Sur commande : disponibilité fournisseur à confirmer avant validation";
   document.getElementById("detailMeta").innerHTML='<div><strong>Catégorie :</strong> '+escapeHTML(p.category || "Non renseignée")+'</div><div><strong>Prix :</strong> '+escapeHTML(formatPrice(p.price_fcfa))+'</div><div><strong>'+escapeHTML(stockText)+'</strong></div>';
   document.getElementById("detailAddButton").onclick=()=>{addToCart(p.id);closeProductDetail();};
   document.getElementById("detailAskButton").onclick=()=>contactProductWhatsApp(p.id);
@@ -325,7 +326,7 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
     created_at:new Date().toISOString()
   };
   const lines=ids.map(id=>{const p=getProduct(id);return "- "+p.name+" x "+cart[id];}).join("\n");
-  const msg="Bonjour NDIAYE BUSINESS, je souhaite passer cette commande :\n\n"+lines+"\n\nNom : "+customerName+"\nTéléphone : "+customerPhone+"\nVille/quartier : "+customerArea+"\nMode de paiement : "+(paymentMethod==="livraison"?"Paiement à la livraison":paymentMethod)+"\nPrécisions : "+customerNote+"\n\nMerci de me confirmer les prix, la disponibilité et la livraison.";
+  const msg="Bonjour NDIAYE BUSINESS, je souhaite passer cette commande :\n\n"+lines+"\n\nNom : "+customerName+"\nTéléphone : "+customerPhone+"\nVille/quartier : "+customerArea+"\nMode de paiement : "+(paymentMethod==="livraison"?"Paiement à la livraison":paymentMethod)+"\nLivraison souhaitée : directe du fournisseur au client. Merci de confirmer si possible, ainsi que les frais et le délai.\nPrécisions : "+customerNote+"\n\nMerci de confirmer la disponibilité réelle avant validation.";
   const waUrl="https://wa.me/221785358385?text="+encodeURIComponent(msg);
   const {error}=await supabaseClient.from("orders").insert(payload);
   if(error){
