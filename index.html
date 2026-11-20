@@ -76,6 +76,22 @@ footer{background:#08090b;color:#a99f88;padding:25px 15px;font-size:9px;letter-s
 .drawer{background:#fbfaf7}.drawer-head{border-color:#e8e1d5}.drawer h2{font:500 28px Georgia,serif}.field{border-radius:2px;border-color:#e2dccf;font-size:12px}.drawer label{letter-spacing:.5px;text-transform:uppercase;font-size:9px}.drawer .btn{border-radius:2px}
 @media(max-width:760px){.nav{padding:13px 16px}.logo{font-size:15px}.hero{min-height:490px}.hero-inner{padding:70px 22px 58px}.hero:after{right:-24%;top:18%;width:300px;height:300px}.hero-seal{right:8%;top:20%;width:90px;height:90px;opacity:.65}.hero-seal span{font-size:28px}.hero-seal small{font-size:5px}.hero-inner{z-index:2}.hero h1{font-size:clamp(48px,12vw,70px);max-width:90%}.hero p{max-width:440px;font-size:12px}.hero-note{margin-top:27px;font-size:9px}.trust-strip{grid-template-columns:1fr;padding:10px 20px}.trust-strip>div{border-right:0;border-bottom:1px solid #e6dfd1;padding:13px 5px}.trust-strip>div:last-child{border-bottom:0}.container{padding:52px 17px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.product-art{height:145px}.product-art>span:not(.tag){font-size:48px}.product-body{padding:14px;min-height:195px}.product h3{font-size:19px}.product p{font-size:10px}.actions{flex-direction:column}.actions button{padding:12px 7px}.steps{grid-template-columns:1fr}.how .container{padding-top:50px;padding-bottom:50px}.contact .container{padding:52px 20px}}
 @media(max-width:390px){.grid{grid-template-columns:1fr}.product-art{height:180px}.product-body{min-height:0}.hero-actions{gap:15px}}
+
+/* Catalogue signature NDIAYE — visuels indicatifs en attendant les vraies photos */
+.product-art{height:230px;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,#3b3323 0%,#171719 58%,#0c0d0f 100%);border-bottom:1px solid #9b7a3e;position:relative}
+.product-art:after{content:"";position:absolute;inset:12px;border:1px solid #c6a45d35;pointer-events:none}
+.product-art>span:not(.tag){position:relative;z-index:1;display:grid;place-items:center;width:118px;height:142px;font-size:76px;background:linear-gradient(145deg,#292a2c,#101113);border:1px solid #c6a45d;box-shadow:0 18px 35px #0008, inset 0 0 22px #c6a45d18;border-radius:18px;filter:drop-shadow(0 10px 8px #0005)}
+.product:nth-child(2) .product-art>span:not(.tag){width:132px;height:116px;border-radius:14px 14px 25px 25px}
+.product:nth-child(3) .product-art>span:not(.tag){width:145px;height:86px;border-radius:10px;font-size:62px}
+.product-art .tag{z-index:2;background:#c6a45d;color:#17130b;font-weight:900;letter-spacing:1.2px}
+.product{border-color:#d8c79f;box-shadow:0 10px 30px #1c16090b}
+.product-body{background:linear-gradient(180deg,#fff 0%,#faf8f2 100%)}
+.product h3{color:#211e17}
+.product .btn{background:linear-gradient(135deg,#f2dfb2,#c5a15a);color:#17140e}
+.product .small-outline{border-color:#c7a45d;color:#745a28}
+#boutique .heading h2{color:#201d17}
+@media(max-width:760px){.product-art{height:170px}.product-art>span:not(.tag){width:92px;height:112px;font-size:58px}.product:nth-child(2) .product-art>span:not(.tag){width:105px;height:92px}.product:nth-child(3) .product-art>span:not(.tag){width:115px;height:70px;font-size:50px}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
