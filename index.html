@@ -212,8 +212,10 @@ function openProductDetail(id){
   document.getElementById("detailTitle").textContent=p.name || "Produit";
   document.getElementById("detailDescription").textContent=p.description || "Contactez notre équipe pour obtenir les détails de cet article.";
   const visual=document.getElementById("detailVisual");
-  if(typeof p.image_url==="string" && /^https?:\\/\\//i.test(p.image_url)){
-    visual.innerHTML='<img src="'+escapeHTML(p.image_url)+'" alt="'+escapeHTML(p.name)+'" onerror="this.remove();this.parentElement.insertAdjacentHTML(\'beforeend\',\'<span class=\\\'detail-symbol\\\'>🛍️</span>\')">';
+  if(typeof p.image_url==="string" && /^https?:\/\//i.test(p.image_url)){
+    visual.innerHTML='<img src="'+escapeHTML(p.image_url)+'" alt="'+escapeHTML(p.name)+'">';
+    const detailImage=visual.querySelector("img");
+    detailImage.addEventListener("error",()=>{visual.innerHTML='<span class="detail-symbol">'+productIcon(p.category)+'</span>';},{once:true});
   }else{
     visual.innerHTML='<span class="detail-symbol">'+productIcon(p.category)+'</span>';
   }
