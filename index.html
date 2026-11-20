@@ -53,6 +53,7 @@ footer{background:#08090b;color:#a8a397;text-align:center;padding:23px;font-size
 @media(max-width:760px){.nav{padding:12px 15px}.navlinks{display:none}.hero-inner{padding:62px 22px}.hero:after{right:-10px}.container{padding:45px 17px}.grid{grid-template-columns:1fr 1fr;gap:11px}.product-art{height:130px}.product-art span{font-size:45px}.product-body{padding:13px}.product h3{font-size:18px}.product p{font-size:11px}.actions{flex-direction:column}.steps{grid-template-columns:1fr}.btn-outline{margin:10px 0 0}.heading{align-items:start}}
 @media(max-width:390px){.grid{grid-template-columns:1fr}.product-art{height:160px}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <div class="announcement">LIVRAISON À DAKAR ET DANS LES RÉGIONS · COMMANDE SUR WHATSAPP</div>
@@ -77,20 +78,124 @@ footer{background:#08090b;color:#a8a397;text-align:center;padding:23px;font-size
 <a class="float" href="https://wa.me/221785358385" target="_blank" rel="noopener">WhatsApp</a>
 <div class="drawer-bg" id="cartLayer" onclick="if(event.target===this)closeCart()"><aside class="drawer" role="dialog" aria-modal="true" aria-label="Votre panier"><div class="drawer-head"><h2>Votre panier</h2><button class="close" onclick="closeCart()">Fermer ✕</button></div><div id="cartItems"></div><div id="checkout" hidden><h3 style="font:500 22px Georgia,serif;margin:22px 0 12px">Vos coordonnées</h3><form id="orderForm"><label for="customer">Nom complet</label><input class="field" id="customer" required placeholder="Votre nom"><label for="phone">Téléphone</label><input class="field" id="phone" required type="tel" placeholder="Votre numéro"><label for="area">Ville / quartier</label><input class="field" id="area" required placeholder="Ex. Dakar, Rufisque..."><label for="note">Précisions (facultatif)</label><textarea class="field" id="note" rows="3" placeholder="Couleur, livraison, questions..."></textarea><button class="btn" type="submit">Envoyer la demande sur WhatsApp</button></form></div></aside></div>
 <script>
-const catalog={thermos:"Thermos 1 litre",mug:"Mug avec pipette",raclette:"Raclette grand modèle"};
-let cart={};
+const SUPABASE_URL = "https://zkocxxfrokehmysudxtw.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_dSl_2f74jVCK7np4idG7IQ_pyomcfAV";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+let productsData = [
+  {id:"thermos",name:"Thermos 1 litre",description:"Un compagnon pratique pour garder vos boissons à portée de main.",category:"maison",price_fcfa:null,stock:0,image_url:null},
+  {id:"mug",name:"Mug avec pipette",description:"Un mug réutilisable pour savourer vos boissons au quotidien.",category:"maison",price_fcfa:null,stock:0,image_url:null},
+  {id:"raclette",name:"Raclette grand modèle",description:"Un accessoire utile pour l'entretien et le nettoyage de la maison.",category:"maison",price_fcfa:null,stock:0,image_url:null}
+];
+let cart = {};
+let activeCategory = "all";
+
+const productsBox = document.getElementById("products");
+const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const formatPrice = value => value === null || value === undefined || value === "" ? "Prix à confirmer" : Number(value).toLocaleString("fr-FR") + " FCFA";
+const productIcon = category => /cuisine|maison/i.test(category || "") ? "🏠" : "🛍️";
+
+function renderProducts() {
+  const q = document.getElementById("search").value.toLowerCase().trim();
+  const filtered = productsData.filter(p => {
+    const matchesText = [p.name,p.description,p.category].join(" ").toLowerCase().includes(q);
+    const matchesCategory = activeCategory === "all" || String(p.category || "").toLowerCase() === activeCategory;
+    return matchesText && matchesCategory;
+  });
+  productsBox.innerHTML = filtered.map(p => {
+    const img = typeof p.image_url === "string" && /^https?:\/\//i.test(p.image_url) 
+      ? '<img src="' + escapeHTML(p.image_url) + '" alt="' + escapeHTML(p.name) + '" style="width:100%;height:100%;object-fit:cover">'
+      : '<span>' + productIcon(p.category) + '</span>';
+    return '<article class="product" data-name="' + escapeHTML((p.name+" "+p.description+" "+p.category).toLowerCase()) + '">' +
+      '<div class="product-art">' + img + '<span class="tag">SÉLECTION</span></div>' +
+      '<div class="product-body"><h3>' + escapeHTML(p.name) + '</h3><p>' + escapeHTML(p.description || "Contactez-nous pour plus de détails.") + '</p>' +
+      '<div class="price">' + formatPrice(p.price_fcfa) + '</div>' +
+      '<div class="actions"><button class="btn" type="button" data-add="' + escapeHTML(p.id) + '">Ajouter au panier</button>' +
+      '<button class="small-outline" type="button" data-ask="' + escapeHTML(p.id) + '">Détails</button></div></div></article>';
+  }).join("");
+  document.getElementById("noResults").hidden = filtered.length !== 0;
+}
+async function loadProducts() {
+  const {data,error} = await supabaseClient.from("products")
+    .select("id,name,description,category,price_fcfa,stock,image_url,is_active")
+    .eq("is_active",true).order("created_at",{ascending:false});
+  if (error) {
+    console.error("Chargement catalogue Supabase:",error.message);
+    return;
+  }
+  if (Array.isArray(data) && data.length) productsData = data;
+  renderProducts();
+}
+function getProduct(id) { return productsData.find(p => String(p.id) === String(id)); }
 function count(){return Object.values(cart).reduce((a,b)=>a+b,0)}
-function updateCount(){document.getElementById('cartCount').textContent=count()}
-function addToCart(id){cart[id]=(cart[id]||0)+1;updateCount();renderCart();openCart()}
+function updateCount(){document.getElementById("cartCount").textContent=count()}
+function addToCart(id){if(!getProduct(id))return;cart[id]=(cart[id]||0)+1;updateCount();renderCart();openCart()}
 function changeQty(id,n){cart[id]=(cart[id]||0)+n;if(cart[id]<=0)delete cart[id];updateCount();renderCart()}
-function openCart(){document.getElementById('cartLayer').classList.add('open');renderCart()}
-function closeCart(){document.getElementById('cartLayer').classList.remove('open')}
-function renderCart(){const box=document.getElementById('cartItems'),checkout=document.getElementById('checkout');const ids=Object.keys(cart);if(!ids.length){box.innerHTML='<p class="empty">Votre panier est vide. Ajoutez un produit pour préparer votre demande de commande.</p>';checkout.hidden=true;return}box.innerHTML=ids.map(id=>'<div class="cart-row"><div><strong>'+catalog[id]+'</strong><small>Prix à confirmer avec la boutique</small></div><div class="qty"><button type="button" aria-label="Diminuer" onclick="changeQty(\''+id+'\',-1)">−</button><b>'+cart[id]+'</b><button type="button" aria-label="Augmenter" onclick="changeQty(\''+id+'\',1)">+</button></div></div>').join('')+'<p class="sub" style="margin-top:15px">Le montant final sera confirmé par notre équipe avant validation.</p>';checkout.hidden=false}
-function askProduct(name){const msg='Bonjour NDIAYE BUSINESS, je souhaite avoir les détails, le prix et la disponibilité de : '+name+'.';window.open('https://wa.me/221785358385?text='+encodeURIComponent(msg),'_blank','noopener')}
-document.querySelectorAll('.filter').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));btn.classList.add('active');filterProducts()}));
-document.getElementById('search').addEventListener('input',filterProducts);
-function filterProducts(){const q=document.getElementById('search').value.toLowerCase().trim(),cat=document.querySelector('.filter.active').dataset.filter;let shown=0;document.querySelectorAll('.product').forEach(card=>{const ok=(cat==='all'||card.dataset.category===cat)&&card.dataset.name.includes(q);card.hidden=!ok;if(ok)shown++});document.getElementById('noResults').hidden=shown!==0}
-document.getElementById('orderForm').addEventListener('submit',e=>{e.preventDefault();const lines=Object.keys(cart).map(id=>'- '+catalog[id]+' x '+cart[id]).join('\n');const msg='Bonjour NDIAYE BUSINESS, je souhaite passer cette demande de commande :\n\n'+lines+'\n\nNom : '+document.getElementById('customer').value+'\nTéléphone : '+document.getElementById('phone').value+'\nVille/quartier : '+document.getElementById('area').value+'\nPrécisions : '+document.getElementById('note').value+'\n\nMerci de me confirmer les prix, la disponibilité et la livraison.';window.open('https://wa.me/221785358385?text='+encodeURIComponent(msg),'_blank','noopener')});
-document.getElementById('year').textContent=new Date().getFullYear();
+function openCart(){document.getElementById("cartLayer").classList.add("open");renderCart()}
+function closeCart(){document.getElementById("cartLayer").classList.remove("open")}
+function renderCart(){
+  const box=document.getElementById("cartItems"),checkout=document.getElementById("checkout"),ids=Object.keys(cart);
+  if(!ids.length){box.innerHTML='<p class="empty">Votre panier est vide. Ajoutez un produit pour préparer votre demande de commande.</p>';checkout.hidden=true;return}
+  box.innerHTML=ids.map(id=>{const p=getProduct(id);if(!p)return "";return '<div class="cart-row"><div><strong>'+escapeHTML(p.name)+'</strong><small>'+formatPrice(p.price_fcfa)+'</small></div><div class="qty"><button type="button" aria-label="Diminuer" data-minus="'+escapeHTML(id)+'">−</button><b>'+cart[id]+'</b><button type="button" aria-label="Augmenter" data-plus="'+escapeHTML(id)+'">+</button></div></div>'}).join("")+
+  '<p class="sub" style="margin-top:15px">Le montant final sera confirmé par notre équipe avant validation.</p>';
+  checkout.hidden=false;
+}
+function askProduct(id){const p=getProduct(id);if(!p)return;const msg="Bonjour NDIAYE BUSINESS, je souhaite avoir les détails, le prix et la disponibilité de : "+p.name+".";window.open("https://wa.me/221785358385?text="+encodeURIComponent(msg),"_blank","noopener")}
+productsBox.addEventListener("click",e=>{
+  const add=e.target.closest("[data-add]"),ask=e.target.closest("[data-ask]");
+  if(add)addToCart(add.dataset.add);
+  if(ask)askProduct(ask.dataset.ask);
+});
+document.getElementById("cartItems").addEventListener("click",e=>{
+  const minus=e.target.closest("[data-minus]"),plus=e.target.closest("[data-plus]");
+  if(minus)changeQty(minus.dataset.minus,-1);
+  if(plus)changeQty(plus.dataset.plus,1);
+});
+document.querySelectorAll(".filter").forEach(btn=>btn.addEventListener("click",()=>{
+  document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  activeCategory=btn.dataset.filter;
+  renderProducts();
+}));
+document.getElementById("search").addEventListener("input",renderProducts);
+
+document.getElementById("orderForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const ids=Object.keys(cart);
+  if(!ids.length){alert("Votre panier est vide.");return;}
+  const customerName=document.getElementById("customer").value.trim();
+  const customerPhone=document.getElementById("phone").value.trim();
+  const customerArea=document.getElementById("area").value.trim();
+  const customerNote=document.getElementById("note").value.trim();
+  if(customerName.length<2 || customerPhone.length<6 || customerArea.length<2){alert("Vérifiez votre nom, téléphone et ville/quartier.");return;}
+  const items=ids.map(id=>{const p=getProduct(id);return {product_id:String(p.id),name:p.name,quantity:cart[id],price_fcfa:p.price_fcfa ?? null};});
+  const waWindow=window.open("about:blank","_blank");
+  const payload={
+    id:crypto.randomUUID(),
+    customer_name:customerName,
+    customer_phone:customerPhone,
+    customer_area:customerArea,
+    customer_note:customerNote,
+    items,
+    status:"pending",
+    created_at:new Date().toISOString()
+  };
+  const {error}=await supabaseClient.from("orders").insert(payload);
+  if(error){
+    if(waWindow)waWindow.close();
+    console.error("Enregistrement commande Supabase:",error.message);
+    alert("La commande n'a pas pu être enregistrée. Vérifiez votre connexion puis réessayez. Détail : "+error.message);
+    return;
+  }
+  const lines=ids.map(id=>{const p=getProduct(id);return "- "+p.name+" x "+cart[id];}).join("\n");
+  const msg="Bonjour NDIAYE BUSINESS, ma demande de commande a été enregistrée :\n\n"+lines+"\n\nNom : "+customerName+"\nTéléphone : "+customerPhone+"\nVille/quartier : "+customerArea+"\nPrécisions : "+customerNote+"\n\nMerci de me confirmer les prix, la disponibilité et la livraison.";
+  const waUrl="https://wa.me/221785358385?text="+encodeURIComponent(msg);
+  if(waWindow)waWindow.location=waUrl;else window.location.href=waUrl;
+  cart={};updateCount();renderCart();document.getElementById("orderForm").reset();
+  alert("Votre demande a été enregistrée. WhatsApp va s'ouvrir pour envoyer les détails à la boutique.");
+});
+document.getElementById("year").textContent=new Date().getFullYear();
+renderProducts();
+loadProducts();
 </script>
 </body></html>
