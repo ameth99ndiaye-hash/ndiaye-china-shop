@@ -214,8 +214,27 @@ let activeCategory = "all";
 
 const productsBox = document.getElementById("products");
 const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const formatPrice = value => value === null || value === undefined || value === "" ? "Prix à confirmer" : Number(value).toLocaleString("fr-FR") + " FCFA";
-const productIcon = category => /cuisine|maison/i.test(category || "") ? "🏠" : "🛍️";
+const formatPrice = value => value === null || value === undefined || value === "" ? "Prix sur demande" : Number(value).toLocaleString("fr-FR") + " FCFA";
+const productIcon = (category,name="") => {
+  const n=String(name).toLowerCase();
+  if(/écouteur|bluetooth/.test(n)) return "🎧";
+  if(/batterie externe|power bank/.test(n)) return "🔋";
+  if(/chargeur|usb-c/.test(n)) return "🔌";
+  if(/support téléphone/.test(n)) return "📱";
+  if(/ring light|trépied/.test(n)) return "💡";
+  if(/ventilateur/.test(n)) return "🌀";
+  if(/lampe|led/.test(n)) return "🔦";
+  if(/blender|mixeur/.test(n)) return "🥤";
+  if(/hachoir/.test(n)) return "🥗";
+  if(/balance/.test(n)) return "⚖️";
+  if(/boîtes|conservation/.test(n)) return "🥡";
+  if(/organisateur|rangement/.test(n)) return "🗄️";
+  if(/pistolet de massage/.test(n)) return "💆";
+  if(/thermos/.test(n)) return "🧴";
+  if(/mug/.test(n)) return "🥤";
+  if(/raclette/.test(n)) return "🧹";
+  return /cuisine/i.test(category || "") ? "🍳" : /maison/i.test(category || "") ? "🏠" : "🛍️";
+};
 
 function renderProducts() {
   const q = document.getElementById("search").value.toLowerCase().trim();
@@ -228,7 +247,7 @@ function renderProducts() {
   productsBox.innerHTML = filtered.map(p => {
     const img = typeof p.image_url === "string" && /^https?:\/\//i.test(p.image_url) 
       ? '<img src="' + escapeHTML(p.image_url) + '" alt="' + escapeHTML(p.name) + '" style="width:100%;height:100%;object-fit:contain;padding:8px;background:#f4f1e9">'
-      : '<span>' + productIcon(p.category) + '</span>';
+      : '<span>' + productIcon(p.category,p.name) + '</span>';
     return '<article class="product" data-name="' + escapeHTML((p.name+" "+p.description+" "+p.category).toLowerCase()) + '">' +
       '<div class="product-art">' + img + '</div>' +
       '<div class="product-body"><h3>' + escapeHTML(p.name) + '</h3><p>' + escapeHTML(p.description || "Contactez-nous pour plus de détails.") + '</p>' +
@@ -259,12 +278,12 @@ function openProductDetail(id){
   if(typeof p.image_url==="string" && /^https?:\/\//i.test(p.image_url)){
     visual.innerHTML='<img src="'+escapeHTML(p.image_url)+'" alt="'+escapeHTML(p.name)+'">';
     const detailImage=visual.querySelector("img");
-    detailImage.addEventListener("error",()=>{visual.innerHTML='<span class="detail-symbol">'+productIcon(p.category)+'</span>';},{once:true});
+    detailImage.addEventListener("error",()=>{visual.innerHTML='<span class="detail-symbol">'+productIcon(p.category,p.name)+'</span>';},{once:true});
   }else{
-    visual.innerHTML='<span class="detail-symbol">'+productIcon(p.category)+'</span>';
+    visual.innerHTML='<span class="detail-symbol">'+productIcon(p.category,p.name)+'</span>';
   }
   const stockText=Number(p.stock)>0 ? "En stock : "+Number(p.stock)+" unité(s) indiquée(s)" : "Sur commande : disponibilité fournisseur à confirmer avant validation";
-  document.getElementById("detailMeta").innerHTML='<div><strong>Catégorie :</strong> '+escapeHTML(p.category || "Non renseignée")+'</div><div><strong>Prix :</strong> '+escapeHTML(formatPrice(p.price_fcfa))+'</div><div><strong>'+escapeHTML(stockText)+'</strong></div>';
+  document.getElementById("detailMeta").innerHTML='<div><strong>Catégorie :</strong> '+escapeHTML(p.category || "Non renseignée")+'</div><div><strong>Tarif :</strong> '+escapeHTML(formatPrice(p.price_fcfa))+'</div><div><strong>'+escapeHTML(stockText)+'</strong></div>';
   document.getElementById("detailAddButton").onclick=()=>{addToCart(p.id);closeProductDetail();};
   document.getElementById("detailAskButton").onclick=()=>contactProductWhatsApp(p.id);
   document.getElementById("productDetailLayer").classList.add("open");
