@@ -113,6 +113,43 @@ footer{background:#08090b;color:#a99f88;padding:25px 15px;font-size:9px;letter-s
 .detail-close{position:absolute;right:12px;top:12px;z-index:3;border:1px solid #c6a45d;background:#101114;color:#f3dfad;padding:9px 12px;cursor:pointer}
 @media(max-width:620px){.product-detail-layer{padding:10px}.product-detail{grid-template-columns:1fr;max-height:95vh}.detail-visual{min-height:220px;height:220px}.detail-visual .detail-symbol{font-size:75px}.detail-content{padding:24px 20px}.detail-content h2{font-size:28px}}
 
+
+/* Correction affichage catalogue : photos entières, sans recadrage */
+.product-art{
+  height:210px;
+  padding:14px;
+  background:#f4f1e9;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.product-art img{
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain !important;
+  object-position:center;
+  padding:8px;
+}
+.product-art>span:not(.tag){
+  max-width:100%;
+  max-height:100%;
+}
+@media(max-width:760px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .product-art{height:155px;padding:9px}
+  .product-art img{padding:5px}
+}
+@media(max-width:390px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .product-art{height:140px}
+  .product-body{padding:11px}
+  .product h3{font-size:17px}
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
