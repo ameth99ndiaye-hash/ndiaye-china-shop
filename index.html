@@ -320,7 +320,7 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
     customer_name:customerName,
     customer_phone:customerPhone,
     customer_area:customerArea,
-    customer_note:customerNote,
+    customer_note:[customerNote,"Livraison directe du fournisseur au client demandée, sous réserve de confirmation."].filter(Boolean).join(" | "),
     payment_method:paymentMethod,
     items,
     status:"nouvelle",
