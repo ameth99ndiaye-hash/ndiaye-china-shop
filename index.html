@@ -177,7 +177,7 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
     customer_area:customerArea,
     customer_note:customerNote,
     items,
-    status:"pending",
+    status:"nouvelle",
     created_at:new Date().toISOString()
   };
   const lines=ids.map(id=>{const p=getProduct(id);return "- "+p.name+" x "+cart[id];}).join("\n");
