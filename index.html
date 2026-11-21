@@ -358,7 +358,8 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
     created_at:new Date().toISOString()
   };
   const lines=ids.map(id=>{const p=getProduct(id);return "- "+p.name+" x "+cart[id];}).join("\n");
-  const msg="Bonjour NDIAYE CHINA SHOP, je souhaite passer cette commande :\n\n"+lines+"\n\nNom : "+customerName+"\nTéléphone : "+customerPhone+"\nVille/quartier : "+customerArea+"\nMode de paiement : "+(paymentMethod==="livraison"?"Paiement à la livraison":paymentMethod)+"\nLivraison souhaitée : directe du fournisseur au client. Merci de confirmer si possible, ainsi que les frais et le délai.\nPrécisions : "+customerNote+"\n\nMerci de confirmer la disponibilité réelle avant validation.";
+  const paymentInstruction=paymentMethod==="livraison"?"Je souhaite payer à la livraison, si ce service est confirmé.":"Après confirmation du prix et de la disponibilité, merci de me confirmer le montant à transférer. Je vous enverrai ensuite la capture du reçu dans cette conversation WhatsApp. Numéro de réception : +221 77 485 68 91.";
+  const msg="Bonjour NDIAYE CHINA SHOP, je souhaite passer cette commande :\n\n"+lines+"\n\nNom : "+customerName+"\nTéléphone : "+customerPhone+"\nVille/quartier : "+customerArea+"\nMode de paiement : "+(paymentMethod==="livraison"?"Paiement à la livraison":paymentMethod==="wave"?"Wave":"Orange Money")+"\n"+paymentInstruction+"\nLivraison souhaitée : directe du fournisseur au client. Merci de confirmer si possible, ainsi que les frais et le délai.\nPrécisions : "+customerNote+"\n\nMerci de confirmer la disponibilité réelle avant validation.";
   const waUrl="https://wa.me/221785358385?text="+encodeURIComponent(msg);
   const {error}=await supabaseClient.from("orders").insert(payload);
   if(error){
