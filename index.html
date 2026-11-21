@@ -204,17 +204,13 @@ const SUPABASE_URL = "https://zkocxxfrokehmysudxtw.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_dSl_2f74jVCK7np4idG7IQ_pyomcfAV";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
-let productsData = [
-  {id:"thermos",name:"Thermos 1 litre",description:"Avec sa capacité de 1 litre, ce thermos vous accompagne à la maison, au travail ou en déplacement. Il permet de transporter une quantité généreuse de boisson et de profiter plus facilement de vos pauses tout au long de la journée.",category:"maison",price_fcfa:null,stock:0,image_url:null},
-  {id:"mug",name:"Mug avec pipette",description:"Un mug équipé d’une pipette pour boire facilement vos boissons préférées. Son format est adapté aux pauses à la maison, au bureau ou pendant vos moments de détente. Un accessoire pratique à garder à portée de main.",category:"maison",price_fcfa:null,stock:0,image_url:null},
-  {id:"raclette",name:"Raclette grand modèle",description:"La raclette grand modèle est un accessoire destiné aux tâches de nettoyage du quotidien. Son format large permet de couvrir une surface plus importante à chaque passage et de faciliter l’entretien de la maison. Contactez-nous pour confirmer les détails du modèle.",category:"maison",price_fcfa:null,stock:0,image_url:null}
-];
+let productsData = []; // Catalogue réel : Supabase est la source unique des produits.
 let cart = {};
 let activeCategory = "all";
 
 const productsBox = document.getElementById("products");
 const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const formatPrice = () => "Prix sur demande";
+const formatPrice = value => value == null || value === "" ? "Prix sur demande" : Number(value).toLocaleString("fr-FR") + " FCFA";
 const productIcon = (category,name="") => {
   const n=String(name).toLowerCase();
   if(/écouteur|bluetooth/.test(n)) return "🎧";
@@ -266,7 +262,7 @@ async function loadProducts() {
     console.error("Chargement catalogue Supabase:",error.message);
     return;
   }
-  if (Array.isArray(data) && data.length) productsData = data;
+  if (Array.isArray(data)) productsData = data;
   renderProducts();
 }
 function getProduct(id) { return productsData.find(p => String(p.id) === String(id)); }
