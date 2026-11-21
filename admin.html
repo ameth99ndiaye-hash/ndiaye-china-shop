@@ -21,6 +21,7 @@
 <section id="dashboard" class="hidden">
 <div class="row" style="justify-content:space-between"><div><p class="pill">TABLEAU DE BORD</p><h1 class="title">Gestion de la boutique</h1><p class="muted" id="welcome">Administration NDIAYE CHINA SHOP</p></div><a class="btn secondary" href="./" target="_blank" rel="noopener">Voir la boutique ↗</a></div>
 <div class="stats"><div class="stat"><strong id="productCount">—</strong><span>Produits actifs</span></div><div class="stat"><strong id="orderCount">—</strong><span>Commandes enregistrées</span></div><div class="stat"><strong id="lowCount">—</strong><span>Produits à vérifier (stock ≤ 3)</span></div></div>
+<section class="panel" id="overviewPanel"><div class="row" style="justify-content:space-between"><div><h2 class="title">Vue d’ensemble</h2><p class="muted">Suivi rapide de l’activité de la boutique</p></div><button class="btn secondary" id="refreshDashboard">Actualiser le tableau de bord</button></div><div class="stats" style="margin-top:15px"><div class="stat"><strong id="newOrdersCount">—</strong><span>Nouvelles commandes</span></div><div class="stat"><strong id="progressOrdersCount">—</strong><span>En préparation / expédiées</span></div><div class="stat"><strong id="deliveredOrdersCount">—</strong><span>Commandes livrées</span></div></div><h3 style="font:22px Georgia,serif;color:var(--gold2);margin:22px 0 8px">Dernières commandes</h3><div id="recentOrders" class="notice">Chargement des dernières commandes…</div></section>
 <nav class="tabs"><button class="tab active" data-tab="productsTab">Produits</button><button class="tab" data-tab="ordersTab">Commandes</button></nav>
 <section id="productsTab" class="panel"><div class="row" style="justify-content:space-between"><h2 class="title">Catalogue produits</h2><button class="btn" id="newProduct">+ Nouveau produit</button></div><p class="muted">Modifie les informations publiées dans la boutique. Les prix et stocks restent ceux que tu renseignes.</p><div id="productList" class="notice">Chargement des produits…</div></section>
 <section id="ordersTab" class="panel hidden"><div class="row" style="justify-content:space-between"><h2 class="title">Commandes reçues</h2><button class="btn secondary" id="refreshOrders">Actualiser</button></div><p class="muted">Consultation des demandes enregistrées par les clients. Les commandes ne sont pas supprimées ni modifiées ici.</p><div id="orderList" class="notice">Chargement des commandes…</div></section>
@@ -71,6 +72,12 @@ async function loadOrders(){
  const {data,error}=await db.from("orders").select("id,customer_name,customer_phone,customer_area,customer_note,payment_method,items,status,created_at").order("created_at",{ascending:false}).limit(100);
  if(error){box.textContent="Impossible de charger les commandes : "+error.message;return}
  const rows=data||[];$("orderCount").textContent=rows.length;
+ const countStatus=s=>rows.filter(o=>o.status===s).length;
+ $("newOrdersCount").textContent=countStatus("nouvelle");
+ $("progressOrdersCount").textContent=rows.filter(o=>["confirmée","en_preparation","expédiée"].includes(o.status)).length;
+ $("deliveredOrdersCount").textContent=countStatus("livrée");
+ const recent=rows.slice(0,5);
+ $("recentOrders").innerHTML=recent.length?recent.map(o=>'<article class="item"><div><strong>'+esc(o.customer_name||"Client")+'</strong><p>'+esc(o.customer_area||"")+' · '+esc(o.created_at?new Date(o.created_at).toLocaleString("fr-FR"):"")+'</p></div><span class="pill">'+esc(orderStatusLabel(o.status))+'</span></article>').join(""):'<p class="empty">Aucune commande récente.</p>';
  if(!rows.length){box.innerHTML='<p class="empty">Aucune commande enregistrée pour le moment.</p>';return}
  box.innerHTML=rows.map(o=>{
   let items=o.items;if(typeof items==="string"){try{items=JSON.parse(items)}catch{}}
@@ -109,6 +116,7 @@ $("productForm").addEventListener("submit",async e=>{e.preventDefault();const id
 $("deleteProduct").addEventListener("click",async()=>{const id=$("productId").value;if(!id||!confirm("Supprimer définitivement ce produit du catalogue ? Cette action ne peut pas être annulée."))return;const {error}=await db.from("products").delete().eq("id",id);if(error){message("formMsg","Suppression refusée : "+error.message,"error");return}$("editor").classList.add("hidden");await loadProducts();message("globalMsg","Produit supprimé du catalogue.","success")});
 document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));$("productsTab").classList.toggle("hidden",b.dataset.tab!=="productsTab");$("ordersTab").classList.toggle("hidden",b.dataset.tab!=="ordersTab");$("editor").classList.add("hidden")}));
 $("refreshOrders").addEventListener("click",loadOrders);
+$("refreshDashboard").addEventListener("click",async()=>{await Promise.all([loadProducts(),loadOrders()]);message("globalMsg","Tableau de bord actualisé.","success")});
 (async()=>{const {data}=await db.auth.getSession();if(data.session){try{if(await isAdmin(data.session.user)){showApp(data.session.user);await Promise.all([loadProducts(),loadOrders()])}else{await db.auth.signOut()}}catch{await db.auth.signOut()}}})();
 </script>
 </body>
