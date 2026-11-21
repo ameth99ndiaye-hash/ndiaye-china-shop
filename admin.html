@@ -52,7 +52,7 @@ async function loadProducts(){const box=$("productList");box.textContent="Charge
 function editProduct(p){$("editor").classList.remove("hidden");$("editorTitle").textContent=p?"Modifier le produit":"Nouveau produit";$("productId").value=p?.id||"";$("pName").value=p?.name||"";$("pCategory").value=p?.category||"maison";$("pDescription").value=p?.description||"";$("pPrice").value=p?.price_fcfa??"";$("pStock").value=p?.stock??0;$("pImage").value=p?.image_url||"";$("pPhoto").value="";$("photoPreview").classList.toggle("hidden",!p?.image_url);$("photoPreview").src=p?.image_url||"";$("pActive").checked=p?.is_active??true;$("deleteProduct").classList.toggle("hidden",!p);message("formMsg","Les modifications seront enregistrées dans Supabase.");$("editor").scrollIntoView({behavior:"smooth",block:"start"})}
 function orderStatusLabel(s){return ({nouvelle:"Nouvelle", "confirmée":"Confirmée", en_preparation:"En préparation", "expédiée":"Expédiée", "livrée":"Livrée", "annulée":"Annulée"})[s]||s||"Nouvelle"}
 function orderWhatsApp(o){
- const digits=String(o.customer_phone||"").replace(/\\D/g,"");
+ const digits=String(o.customer_phone||"").replace(/\D/g,"");
  if(!digits)return "#";
  const phone=digits.startsWith("221")?digits:"221"+digits;
  const message="Bonjour "+(o.customer_name||"")+", nous faisons le suivi de votre demande chez NDIAYE CHINA SHOP. Votre commande est actuellement : "+orderStatusLabel(o.status)+". Nous vous confirmerons le prix, la disponibilité fournisseur et le délai avant validation définitive. Merci.";
@@ -68,7 +68,7 @@ async function setOrderStatus(id,status,button){
 }
 async function loadOrders(){
  const box=$("orderList");box.textContent="Chargement…";
- const {data,error}=await db.from("orders").select("id,customer_name,customer_phone,customer_area,customer_note,payment_method,items,status,created_at").order("created_at",{ascending:false}).limit(100);
+ const {data,error}=await db.from("orders").select("id,customer_name,customer_phone,customer_area,customer_note,payment_method,payment_status,items,status,created_at").order("created_at",{ascending:false}).limit(100);
  if(error){box.textContent="Impossible de charger les commandes : "+error.message;return}
  const rows=data||[];$("orderCount").textContent=rows.length;
  if(!rows.length){box.innerHTML='<p class="empty">Aucune commande enregistrée pour le moment.</p>';return}
@@ -79,9 +79,10 @@ async function loadOrders(){
   const area=esc(o.customer_area||"");
   const note=esc(o.customer_note||"");
   const payment=o.payment_method==="livraison"?"À la livraison":o.payment_method==="wave"?"Wave":o.payment_method==="orange_money"?"Orange Money":"Non renseigné";
+  const paymentStatus=o.payment_status==="payé"||o.payment_status==="paye"?"Payé":o.payment_status==="remboursé"?"Remboursé":"En attente";
   const opts=["nouvelle","confirmée","en_preparation","expédiée","livrée","annulée"].map(s=>'<option value="'+s+'" '+(o.status===s?"selected":"")+'>'+orderStatusLabel(s)+'</option>').join("");
   const wa=orderWhatsApp(o);
-  return '<article class="item" style="display:block"><div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap"><div><h3>Commande · '+esc(o.customer_name||"Client")+'</h3><p>'+phone+' · '+area+'</p><p style="margin-top:7px">'+details+'</p><p style="margin-top:7px">Paiement : <strong>'+esc(payment)+'</strong></p>'+(note?'<p style="margin-top:7px">Note : '+note+'</p>':'')+'<p style="margin-top:7px">Reçue le : '+esc(o.created_at?new Date(o.created_at).toLocaleString("fr-FR"):"")+'</p></div><span class="pill">'+esc(orderStatusLabel(o.status))+'</span></div><div class="actions" style="margin-top:13px"><select class="field" style="width:auto;min-width:150px;margin:0" id="status-'+esc(o.id)+'" aria-label="Statut de la commande">'+opts+'</select><button class="btn" data-save-order="'+esc(o.id)+'">Mettre à jour</button>'+(wa!=="#"?'<a class="btn secondary" href="'+wa+'" target="_blank" rel="noopener">Contacter sur WhatsApp</a>':'')+'</div></article>';
+  return '<article class="item" style="display:block"><div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap"><div><h3>Commande · '+esc(o.customer_name||"Client")+'</h3><p>'+phone+' · '+area+'</p><p style="margin-top:7px">'+details+'</p><p style="margin-top:7px">Paiement : <strong>'+esc(payment)+'</strong> · État : <strong>'+esc(paymentStatus)+'</strong></p>'+(note?'<p style="margin-top:7px">Note : '+note+'</p>':'')+'<p style="margin-top:7px">Reçue le : '+esc(o.created_at?new Date(o.created_at).toLocaleString("fr-FR"):"")+'</p></div><span class="pill">'+esc(orderStatusLabel(o.status))+'</span></div><div class="actions" style="margin-top:13px"><select class="field" style="width:auto;min-width:150px;margin:0" id="status-'+esc(o.id)+'" aria-label="Statut de la commande">'+opts+'</select><button class="btn" data-save-order="'+esc(o.id)+'">Mettre à jour</button>'+(wa!=="#"?'<a class="btn secondary" href="'+wa+'" target="_blank" rel="noopener">Contacter sur WhatsApp</a>':'')+'</div></article>';
  }).join("");
  box.querySelectorAll("[data-save-order]").forEach(button=>button.addEventListener("click",()=>{const id=button.dataset.saveOrder;setOrderStatus(id,box.querySelector("#status-"+CSS.escape(id)).value,button)}));
 }
