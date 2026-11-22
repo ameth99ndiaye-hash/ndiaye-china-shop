@@ -248,7 +248,7 @@ function renderProducts() {
       '<div class="product-art">' + img + '</div>' +
       '<div class="product-body"><h3>' + escapeHTML(p.name) + '</h3><p>' + escapeHTML(p.description || "Contactez-nous pour plus de détails.") + '</p>' +
       '<div class="price">' + formatPrice(p.price_fcfa) + '</div>' +
-      '<p class="availability" style="font-size:11px;margin:8px 0;color:' + (Number(p.stock)>0?'#47734b':'#98743b') + '">' + (Number(p.stock)>0?'En stock':'Sur commande · livraison fournisseur à confirmer') + '</p>' +
+      '<p class="availability" style="font-size:11px;margin:8px 0;color:' + '#98743b' + '">Sur commande · disponibilité confirmée avant validation</p>' +
       '<div class="actions"><button class="btn" type="button" data-add="' + escapeHTML(p.id) + '">Commander cet article</button>' +
       '<button class="small-outline" type="button" data-ask="' + escapeHTML(p.id) + '">Détails</button></div></div></article>';
   }).join("");
@@ -256,7 +256,7 @@ function renderProducts() {
 }
 async function loadProducts() {
   const {data,error} = await supabaseClient.from("products")
-    .select("id,name,description,category,price_fcfa,stock,image_url,is_active")
+    .select("id,name,description,category,price_fcfa,image_url,is_active,supplier_type,delivery_min_days,delivery_max_days")
     .eq("is_active",true).order("created_at",{ascending:false});
   if (error) {
     console.error("Chargement catalogue Supabase:",error.message);
@@ -278,8 +278,9 @@ function openProductDetail(id){
   }else{
     visual.innerHTML='<span class="detail-symbol">'+productIcon(p.category,p.name)+'</span>';
   }
-  const stockText=Number(p.stock)>0 ? "En stock : "+Number(p.stock)+" unité(s) indiquée(s)" : "Sur commande : disponibilité fournisseur à confirmer avant validation";
-  document.getElementById("detailMeta").innerHTML='<div><strong>Catégorie :</strong> '+escapeHTML(p.category || "Non renseignée")+'</div><div><strong>Tarif :</strong> '+escapeHTML(formatPrice(p.price_fcfa))+'</div><div><strong>'+escapeHTML(stockText)+'</strong></div>';
+  const sourceText=({senegal:"Fournisseur au Sénégal",china:"Fournisseur en Chine",both:"Sénégal ou Chine",to_confirm:"Source fournisseur à confirmer"})[p.supplier_type]||"Source fournisseur à confirmer";
+  const delayText=(p.delivery_min_days!=null||p.delivery_max_days!=null)?" · délai estimé "+(p.delivery_min_days??"?")+" à "+(p.delivery_max_days??"?")+" jours":"";
+  document.getElementById("detailMeta").innerHTML='<div><strong>Catégorie :</strong> '+escapeHTML(p.category || "Non renseignée")+'</div><div><strong>Tarif :</strong> '+escapeHTML(formatPrice(p.price_fcfa))+'</div><div><strong>'+escapeHTML("Sur commande · "+sourceText+delayText)+'</strong></div>';
   document.getElementById("detailAddButton").onclick=()=>{addToCart(p.id);closeProductDetail();};
   document.getElementById("detailAskButton").onclick=()=>contactProductWhatsApp(p.id);
   document.getElementById("productDetailLayer").classList.add("open");
@@ -340,7 +341,7 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
   const customerNote=document.getElementById("note").value.trim();
   const paymentMethod=document.getElementById("paymentMethod").value;
   if(customerName.length<2 || customerPhone.length<6 || customerArea.length<2){alert("Vérifiez votre nom, téléphone et ville/quartier.");return;}
-  const items=ids.map(id=>{const p=getProduct(id);return {product_id:String(p.id),name:p.name,quantity:cart[id],price_fcfa:p.price_fcfa ?? null};});
+  const items=ids.map(id=>{const p=getProduct(id);return {product_id:String(p.id),name:p.name,quantity:cart[id],price_fcfa:p.price_fcfa ?? null,supplier_type:p.supplier_type||"to_confirm"};});
   const waWindow=window.open("about:blank","_blank");
   const payload={
     id:crypto.randomUUID(),
@@ -351,6 +352,8 @@ document.getElementById("orderForm").addEventListener("submit",async e=>{
     payment_method:paymentMethod,
     items,
     status:"nouvelle",
+    supplier_type:"to_confirm",
+    supplier_status:"a_confirmer",
     created_at:new Date().toISOString()
   };
   const lines=ids.map(id=>{const p=getProduct(id);return "- "+p.name+" x "+cart[id];}).join("\n");
